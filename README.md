@@ -1,0 +1,2 @@
+# blackjack
+Øvingsoppgave Decisive
