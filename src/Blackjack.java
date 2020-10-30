@@ -58,8 +58,7 @@ public class Blackjack {
 
     private void startNyRunde() {
         System.out.println("Ny runde");
-        kortstokk.samleKort();
-        kortstokk.stokkKort();
+        kortstokk = new Kortstokk();
         spiller = new Spiller("Spiller");
         dealer = new Spiller("Dealer");
         trekkKort(spiller);
