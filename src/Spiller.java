@@ -1,13 +1,19 @@
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Klasse som holder på kortene en spiller har
+ * og tilbyr operasjoner som en spiller kan gjøre.
+ *
+ * @see Kort
+ */
 class Spiller {
-    private String navn = null;
+    private final String navn;
 
     enum Status {KAN_TREKKE_KORT, STOPPET, OVER21}
 
-    private Status status = null;
-    List<Kort> hand = null;
+    private Status status;
+    List<Kort> hand;
 
     public Spiller(String navn) {
         this.navn = navn;
@@ -17,14 +23,17 @@ class Spiller {
 
     public void stopp() {
         status = Status.STOPPET;
-        System.out.println("Stopper på: " + valgtVerdi());
+        System.out.println("Stopper på: " + maxVerdiForHand());
     }
 
     public Status status() {
         return status;
     }
 
-    public Integer valgtVerdi() {
+    /**
+     * @return verdien en hånd har dersom den har en eller flere verdier lavere enn 22, eller returneres 22
+     */
+    public Integer maxVerdiForHand() {
         return verdiForHand().stream().filter(v -> v < 22).mapToInt(v -> v).max().orElse(22);
     }
 
@@ -33,13 +42,15 @@ class Spiller {
             return;
         }
 
-        if (verdiForHand().stream().filter(v -> v.intValue() < 22).findFirst().isPresent()) {
-            return;
-        } else {
+        if (verdiForHand().stream().noneMatch(v -> v < 22)) {
             status = Status.OVER21;
         }
     }
 
+    /**
+     * Beregner verdien til en hånd. En hånd kan ha flere verdier siden Ess kan ha verdien 1 eller 11.
+     * @return En liste av verdier som en hånd har.
+     */
     private List<Integer> verdiForHand() {
         // Summer verdiene til kortene i hånden
         int verdi = 0;
@@ -73,10 +84,9 @@ class Spiller {
         oppdaterStatus();
     }
 
-    public void visForsteKort() {
-        System.out.println(hand.get(0));
-    }
-
+    /**
+     * Skriver ut kortene i en hånden til spilleren og de mulige verdiene en hånd kan ha.
+     */
     public void visHand() {
         System.out.println("Viser hand for " + navn);
         for (Kort kort : hand) {

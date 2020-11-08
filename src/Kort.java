@@ -1,6 +1,3 @@
-import java.util.LinkedList;
-import java.util.List;
-
 public class Kort {
     private final Rank rank;
     private final Farge farge;

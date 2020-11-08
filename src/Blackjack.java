@@ -1,11 +1,20 @@
 import java.util.Scanner;
 
+/**
+ * Klasse som organiserer hele {@code Blackjack} spillet.
+ * Spillet har en {@code Spiller} og en {@code Dealer}.
+ * Spilleren styrer spillet gjennom menyvalg.
+ *
+ * @see Spiller
+ * @see Dealer
+ */
 public class Blackjack {
     Spiller spiller = new Spiller("Spiller");
-    Spiller dealer = new Spiller("Dealer");
+    Dealer dealer = new Dealer("Dealer");
     Kortstokk kortstokk = new Kortstokk();
 
 
+    // Mulige valg en spiller kan gjøre.
     enum Menyvalg {
         NYTT_KORT, AVSLUTT, STÅ, NY_RUNDE, VIS_HAND
     }
@@ -18,6 +27,11 @@ public class Blackjack {
         blackjack.start();
     }
 
+    /**
+     * Funksjonen tar imot hendelser i form av valg gjort av spilleren.
+     * Avhengig av valg utføres tilhørende operasjoner ved kall til underliggende funksjoner.
+     * Etter hvert valg sjekkes status på spilleren.
+     */
     public void start() {
         startNyRunde();
         printMeny();
@@ -41,8 +55,9 @@ public class Blackjack {
 
             if (spiller.status() == Spiller.Status.OVER21) {
                 System.out.println("Over 21, du tapte.");
+                startNyRunde();
             } else if (spiller.status() == Spiller.Status.STOPPET) {
-                System.out.println("Spiller står på: " + spiller.valgtVerdi() + ", dealer trekker kort...");
+                System.out.println("Spiller står på: " + spiller.maxVerdiForHand() + ", dealer trekker kort...");
             }
         } while (valg != Menyvalg.AVSLUTT);
 
@@ -54,17 +69,22 @@ public class Blackjack {
         spiller.visHand();
         System.out.println("Viser første kort for dealer:");
         dealer.visForsteKort();
+        System.out.println("Antall kort igjen i kortstokken: " + kortstokk.kortstokk.size());
     }
 
     private void startNyRunde() {
         System.out.println("Ny runde");
         kortstokk = new Kortstokk();
         spiller = new Spiller("Spiller");
-        dealer = new Spiller("Dealer");
+        dealer = new Dealer("Dealer");
         trekkKort(spiller);
         trekkKort(spiller);
         trekkKort(dealer);
         trekkKort(dealer);
+        visHand();
+        if (spiller.maxVerdiForHand().equals(21)) {
+            System.out.println("Gratulerer!! Du har BlackJack og har vunnet!!!");
+        }
     }
 
     private void stoppTrekkAvKort() {
@@ -72,24 +92,25 @@ public class Blackjack {
         spiller.stopp();
 
         dealer.visHand();
-        while (dealer.valgtVerdi() < 17) {
-            dealer.mottaKort(kortstokk.trekkKort());
+        while (dealer.maxVerdiForHand() < 17) {
+            Kort kort = kortstokk.trekkKort();
+            System.out.println("Dealer trekker kortet: " + kort);
+            dealer.mottaKort(kort);
             dealer.visHand();
         }
-        if (dealer.valgtVerdi() > 21) {
+        if (dealer.maxVerdiForHand() > 21) {
             System.out.println("Dealer røk over 21. DU VANT!!!");
-        } else if (dealer.valgtVerdi() == spiller.valgtVerdi()) {
+        } else if (dealer.maxVerdiForHand().equals(spiller.maxVerdiForHand())) {
             System.out.println("Uavgjort!!");
-        } else if (dealer.valgtVerdi() > spiller.valgtVerdi()) {
+        } else if (dealer.maxVerdiForHand() > spiller.maxVerdiForHand()) {
             System.out.println("Dealer vant!!");
         } else {
             System.out.println("DU VANT");
         }
     }
 
-    private void trekkKort(Spiller spiller) {
-        Kort kort = kortstokk.trekkKort();
-        spiller.mottaKort(kort);
+    private void trekkKort(Spiller abstraktSpiller) {
+        abstraktSpiller.mottaKort(kortstokk.trekkKort());
     }
 
     private Menyvalg lesValg() {
@@ -115,11 +136,11 @@ public class Blackjack {
     }
 
     private boolean lovligValg(String valg) {
-        return valg.matches("a|A|n|N|t|T|v|V|s|S");
+        return valg.matches("[aAnNtTvVsS]");
     }
 
     private void printMeny() {
-        System.out.println("Velg hva du ønsker å gjøre");
+        System.out.println("\nVelg hva du ønsker å gjøre");
         System.out.println("(A)vslutt spillet.");
         System.out.println("(N)y runde.");
         System.out.println("(T)rekk kort.");
