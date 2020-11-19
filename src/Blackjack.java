@@ -11,8 +11,6 @@ import java.util.Scanner;
 public class Blackjack {
     Spiller spiller = new Spiller("Spiller");
     Dealer dealer = new Dealer("Dealer");
-    Kortstokk kortstokk = new Kortstokk();
-
 
     // Mulige valg en spiller kan gjøre.
     enum Menyvalg {
@@ -40,10 +38,12 @@ public class Blackjack {
             valg = lesValg();
             switch (valg) {
                 case NYTT_KORT:
-                    trekkKort(spiller);
+                    spiller.mottaKort(dealer.delUtKort());
                     break;
                 case STÅ:
-                    stoppTrekkAvKort();
+                    System.out.println("Står");
+                    spiller.stopp();
+                    dealer.fullforSpill(spiller);
                     continue;
                 case NY_RUNDE:
                     startNyRunde();
@@ -54,7 +54,7 @@ public class Blackjack {
             }
 
             if (spiller.status() == Spiller.Status.OVER21) {
-                System.out.println("Over 21, du tapte.");
+                System.out.println("Over 21, du tapte.\n\n");
                 startNyRunde();
             } else if (spiller.status() == Spiller.Status.STOPPET) {
                 System.out.println("Spiller står på: " + spiller.maxVerdiForHand() + ", dealer trekker kort...");
@@ -69,48 +69,23 @@ public class Blackjack {
         spiller.visHand();
         System.out.println("Viser første kort for dealer:");
         dealer.visForsteKort();
-        System.out.println("Antall kort igjen i kortstokken: " + kortstokk.kortstokk.size());
+        System.out.println("Antall kort igjen i kortstokken: " + dealer.antallKortIStokken());
     }
 
     private void startNyRunde() {
         System.out.println("Ny runde");
-        kortstokk = new Kortstokk();
+
+        dealer.samleOgStokkKort();
         spiller = new Spiller("Spiller");
         dealer = new Dealer("Dealer");
-        trekkKort(spiller);
-        trekkKort(spiller);
-        trekkKort(dealer);
-        trekkKort(dealer);
+        spiller.mottaKort(dealer.delUtKort());
+        spiller.mottaKort(dealer.delUtKort());
+        dealer.mottaKort(dealer.delUtKort());
+        dealer.mottaKort(dealer.delUtKort());
         visHand();
         if (spiller.maxVerdiForHand().equals(21)) {
             System.out.println("Gratulerer!! Du har BlackJack og har vunnet!!!");
         }
-    }
-
-    private void stoppTrekkAvKort() {
-        System.out.println("Står");
-        spiller.stopp();
-
-        dealer.visHand();
-        while (dealer.maxVerdiForHand() < 17) {
-            Kort kort = kortstokk.trekkKort();
-            System.out.println("Dealer trekker kortet: " + kort);
-            dealer.mottaKort(kort);
-            dealer.visHand();
-        }
-        if (dealer.maxVerdiForHand() > 21) {
-            System.out.println("Dealer røk over 21. DU VANT!!!");
-        } else if (dealer.maxVerdiForHand().equals(spiller.maxVerdiForHand())) {
-            System.out.println("Uavgjort!!");
-        } else if (dealer.maxVerdiForHand() > spiller.maxVerdiForHand()) {
-            System.out.println("Dealer vant!!");
-        } else {
-            System.out.println("DU VANT");
-        }
-    }
-
-    private void trekkKort(Spiller abstraktSpiller) {
-        abstraktSpiller.mottaKort(kortstokk.trekkKort());
     }
 
     private Menyvalg lesValg() {

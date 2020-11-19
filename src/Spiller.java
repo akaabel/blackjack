@@ -61,7 +61,7 @@ class Spiller {
         verdier.add(verdi);
 
         // Håndtering av tilfellene hvor en hånd inneholder Ess
-        long antallEssIHand = hand.stream().filter(k -> k.rank() == Rank.ESS).count();
+        long antallEssIHand = hand.stream().filter(k -> k.rank() == Kort.Rank.ESS).count();
         if (antallEssIHand == 1) {
             verdier.add(verdi - 11 + 1);
         } else if (antallEssIHand == 2) {
