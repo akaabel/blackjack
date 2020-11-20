@@ -1,3 +1,5 @@
+package no.aka.blackjack;
+
 import java.util.Scanner;
 
 /**

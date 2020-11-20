@@ -1,3 +1,5 @@
+package no.aka.blackjack;
+
 /**
  * Klasse som representer en Dealer i Blackjack.
  * En dealer er veldig lik en spiller, bortsett fra at det er tilfeller hvor bare den første kortet vises.

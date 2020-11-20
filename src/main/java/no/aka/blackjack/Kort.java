@@ -1,3 +1,5 @@
+package no.aka.blackjack;
+
 public class Kort {
     private final Rank rank;
     private final Farge farge;
