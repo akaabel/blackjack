@@ -1,4 +1,4 @@
-package no.aka.blackjack;
+package no.aka.blackjack.domain;
 
 import java.util.Scanner;
 
@@ -19,19 +19,21 @@ public class Blackjack {
         NYTT_KORT, AVSLUTT, STÅ, NY_RUNDE, VIS_HAND
     }
 
-    public static void main(String[] args) {
-        System.out.println("Velkommen til BlackJack");
-        System.out.println("-----------------------");
-
-        Blackjack blackjack = new Blackjack();
-        blackjack.start();
-    }
+//    public static void main(String[] args) {
+//        System.out.println("Velkommen til BlackJack");
+//        System.out.println("-----------------------");
+//
+//        Blackjack blackjack = new Blackjack();
+//        blackjack.start();
+//    }
 
     /**
      * Funksjonen tar imot hendelser i form av valg gjort av spilleren.
      * Avhengig av valg utføres tilhørende operasjoner ved kall til underliggende funksjoner.
      * Etter hvert valg sjekkes status på spilleren.
-     */
+/*
+     *//*
+
     public void start() {
         startNyRunde();
         printMeny();
@@ -66,29 +68,30 @@ public class Blackjack {
         System.out.println("Spillet er avsluttet. Velkommen tilbake en annen gang.");
         System.out.println("-----------------------");
     }
+*/
 
-    private void visHand() {
-        spiller.visHand();
-        System.out.println("Viser første kort for dealer:");
-        dealer.visForsteKort();
-        System.out.println("Antall kort igjen i kortstokken: " + dealer.antallKortIStokken());
-    }
-
-    private void startNyRunde() {
-        System.out.println("Ny runde");
-
-        dealer.samleOgStokkKort();
-        spiller = new Spiller("Spiller");
-        dealer = new Dealer("Dealer");
-        spiller.mottaKort(dealer.delUtKort());
-        spiller.mottaKort(dealer.delUtKort());
-        dealer.mottaKort(dealer.delUtKort());
-        dealer.mottaKort(dealer.delUtKort());
-        visHand();
-        if (spiller.maxVerdiForHand().equals(21)) {
-            System.out.println("Gratulerer!! Du har BlackJack og har vunnet!!!");
-        }
-    }
+//    private void visHand() {
+//        spiller.visHand();
+//        System.out.println("Viser første kort for dealer:");
+//        dealer.visForsteKort();
+//        System.out.println("Antall kort igjen i kortstokken: " + dealer.antallKortIStokken());
+//    }
+//
+//    private void startNyRunde() {
+//        System.out.println("Ny runde");
+//
+//        dealer.samleOgStokkKort();
+//        spiller = new Spiller("Spiller");
+//        dealer = new Dealer("Dealer");
+//        spiller.mottaKort(dealer.delUtKort());
+//        spiller.mottaKort(dealer.delUtKort());
+//        dealer.mottaKort(dealer.delUtKort());
+//        dealer.mottaKort(dealer.delUtKort());
+////        visHand();
+//        if (spiller.maxVerdiForHand().equals(21)) {
+//            System.out.println("Gratulerer!! Du har BlackJack og har vunnet!!!");
+//        }
+//    }
 
     private Menyvalg lesValg() {
         Scanner scanner = new Scanner(System.in);

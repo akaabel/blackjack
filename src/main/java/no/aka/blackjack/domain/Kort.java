@@ -1,25 +1,6 @@
-package no.aka.blackjack;
+package no.aka.blackjack.domain;
 
 public class Kort {
-    private final Rank rank;
-    private final Farge farge;
-
-    public Kort(Rank rank, Farge farge) {
-        this.rank = rank;
-        this.farge = farge;
-    }
-
-    public int verdi() {
-        return rank.verdi;
-    }
-
-    public Rank rank() {
-        return rank;
-    }
-
-    public String toString() {
-        return rank.benevnelse + "-" + farge.name();
-    }
 
     enum Farge {
         Spar("S"), Hjerter("H"), Ruter("R"), Kløver("K");
@@ -52,4 +33,27 @@ public class Kort {
             this.benevnelse = benevnelse;
         }
     }
+
+    private final Rank rank;
+    private final Farge farge;
+
+    public Kort(Rank rank, Farge farge) {
+        this.rank = rank;
+        this.farge = farge;
+    }
+
+    public Farge getFarge() { return farge; }
+
+    public Rank getRank() {
+        return rank;
+    }
+
+    public int verdi() {
+        return rank.verdi;
+    }
+
+    public String toString() {
+        return rank.benevnelse + "-" + farge.name();
+    }
+
 }
