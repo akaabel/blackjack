@@ -13,7 +13,7 @@ public class BlackjackService {
     private Status status;
 
     public BlackjackService() {
-        start();
+        start(new Spiller("DefaultNavn"));
     }
 
     public Spiller getSpiller() {
@@ -28,25 +28,26 @@ public class BlackjackService {
         return status;
     }
 
-    public void start() {
-        spiller = new Spiller("AKA");
+    public void start(Spiller spiller) {
+        this.spiller = new Spiller(spiller.getNavn());
         dealer = new Dealer("Mr. Dealer");
         status = Status.SPILLER_KAN_TREKKE_KORT;
 
         dealer.samleOgStokkKort();
-        spiller.mottaKort(dealer.delUtKort());
-        spiller.mottaKort(dealer.delUtKort());
+        this.spiller.mottaKort(dealer.delUtKort());
+        this.spiller.mottaKort(dealer.delUtKort());
         dealer.mottaKort(dealer.delUtKort());
         dealer.mottaKort(dealer.delUtKort());
 
-        if (spiller.besteVerdiForHand() == 21) {
+        if (this.spiller.besteVerdiForHand() == 21) {
             status = Status.BLACK_JACK;
         }
     }
 
     public void delKortTilSpiller() {
-        // TODO Må sjekke status om spiller har lov til å motta kort eller om spillet er avsluttet
-        // Kast exception om det skjer. Denne må returneres via Rest controlleren
+        if (status != Status.SPILLER_KAN_TREKKE_KORT) {
+            throw new IllegalStateException("Spilller har ikke lov å trekke flere kort. Tilstanden er " + status);
+        }
         spiller.mottaKort(dealer.delUtKort());
     }
 

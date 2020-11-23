@@ -1,5 +1,7 @@
 package no.aka.blackjack.domain;
 
+// TODO Fjerne utkommentert kode
+
 /**
  * Klasse som holder på kortene en spiller har
  * og tilbyr operasjoner som en spiller kan gjøre.
@@ -7,18 +9,23 @@ package no.aka.blackjack.domain;
  * @see Kort
  */
 public class Spiller {
-    private final String navn;
+    private String navn;
 
     public enum Status {KAN_TREKKE_KORT, STOPPET, OVER21}
 
 //    private Status status;
     protected Hand hand;
 
+    public Spiller() {
+    }
+
     public Spiller(String navn) {
         this.navn = navn;
         hand = new Hand();
 //        status = Status.KAN_TREKKE_KORT;
     }
+
+
 
     public void stopp() {
 //        status = Status.STOPPET;
@@ -61,6 +68,10 @@ public class Spiller {
 
     public String getNavn() {
         return navn;
+    }
+
+    public void setNavn(String navn) {
+        this.navn = navn;
     }
 
     public Hand getHand() {
