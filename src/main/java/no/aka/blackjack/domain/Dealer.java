@@ -1,21 +1,30 @@
 package no.aka.blackjack.domain;
 
+import no.aka.blackjack.service.BlackjackService;
+
 /**
  * Klasse som representer en Dealer i Blackjack.
  * En dealer er veldig lik en spiller, bortsett fra at det er tilfeller hvor bare den første kortet vises.
  *
- * @see Blackjack
+ * @see BlackjackService
  * @see Spiller
  */
 public class Dealer extends Spiller {
     private Kortstokk kortstokk = new Kortstokk();
+    private boolean skalKortSkjules = true;
 
     public Dealer(String navn) {
         super(navn);
     }
 
-    public void visForsteKort() {
-        System.out.println(hand.getListeAvKort().get(0));
+    public Hand getHand() {
+        if (skalKortSkjules) {
+            Hand tmpHand = new Hand();
+            tmpHand.leggTilKort(hand.getListeAvKort().get(0));
+            return tmpHand;
+        } else {
+            return hand;
+        }
     }
 
     public void samleOgStokkKort() {
@@ -34,5 +43,9 @@ public class Dealer extends Spiller {
         while (besteVerdiForHand() < 17) {
             mottaKort(kortstokk.trekkKort());
         }
+    }
+
+    public void aktiverVisingAvKort() {
+        skalKortSkjules = false;
     }
 }

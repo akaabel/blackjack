@@ -3,11 +3,15 @@ package no.aka.blackjack.domain;
 public class Kort {
 
     enum Farge {
-        Spar("S"), Hjerter("H"), Ruter("R"), Kløver("K");
-        public final String benevnelse;
+        Spar("\u2660"),
+        Hjerter("\u2665"),
+        Ruter("\u2666"),
+        Kløver("\u2663");
 
-        Farge(String benevnelse) {
-            this.benevnelse = benevnelse;
+        public final String unicodeSymbol;
+
+        Farge(String unicodeSymbol) {
+            this.unicodeSymbol = unicodeSymbol;
         }
     }
 
@@ -34,15 +38,17 @@ public class Kort {
         }
     }
 
-    private final Rank rank;
     private final Farge farge;
+    private final Rank rank;
 
     public Kort(Rank rank, Farge farge) {
         this.rank = rank;
         this.farge = farge;
     }
 
-    public Farge getFarge() { return farge; }
+    public String getFarge() {
+        return farge.unicodeSymbol + " " + farge.name();
+    }
 
     public Rank getRank() {
         return rank;
@@ -51,9 +57,4 @@ public class Kort {
     public int verdi() {
         return rank.verdi;
     }
-
-    public String toString() {
-        return rank.benevnelse + "-" + farge.name();
-    }
-
 }

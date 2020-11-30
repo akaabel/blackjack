@@ -13,7 +13,7 @@ public class BlackjackService {
     private Status status;
 
     public BlackjackService() {
-        start(new Spiller("DefaultNavn"));
+        start("DefaultNavn");
     }
 
     public Spiller getSpiller() {
@@ -28,8 +28,8 @@ public class BlackjackService {
         return status;
     }
 
-    public void start(Spiller spiller) {
-        this.spiller = new Spiller(spiller.getNavn());
+    public void start(String spillernavn) {
+        this.spiller = new Spiller(spillernavn);
         dealer = new Dealer("Mr. Dealer");
         status = Status.SPILLER_KAN_TREKKE_KORT;
 
@@ -49,9 +49,13 @@ public class BlackjackService {
             throw new IllegalStateException("Spilller har ikke lov å trekke flere kort. Tilstanden er " + status);
         }
         spiller.mottaKort(dealer.delUtKort());
+        if (spiller.harMerEnn21()) {
+            status = Status.DEALER_VANT;
+        }
     }
 
     public void pass() {
+        dealer.aktiverVisingAvKort();
         dealer.fullforSpill(spiller);
         if (dealer.besteVerdiForHand() > 21) {
             status = Status.SPILLER_VANT;
@@ -59,7 +63,7 @@ public class BlackjackService {
             status = Status.DEALER_VANT;
         } else if (dealer.besteVerdiForHand() < spiller.besteVerdiForHand()) {
             status = Status.SPILLER_VANT;
-        } else if (dealer.besteVerdiForHand() == spiller.besteVerdiForHand()) {
+        } else if (dealer.besteVerdiForHand().equals(spiller.besteVerdiForHand())) {
             status = Status.UAVGJORT;
         } else {
             status = Status.DEALER_VANT;
