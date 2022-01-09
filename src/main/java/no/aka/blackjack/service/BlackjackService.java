@@ -1,6 +1,7 @@
 package no.aka.blackjack.service;
 
 import no.aka.blackjack.domain.Dealer;
+import no.aka.blackjack.domain.Kortstokk;
 import no.aka.blackjack.domain.Spiller;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class BlackjackService {
         dealer = new Dealer("Mr. Dealer");
         status = Status.SPILLER_KAN_TREKKE_KORT;
 
-        dealer.samleOgStokkKort();
+        dealer.startNyRunde();
         this.spiller.mottaKort(dealer.delUtKort());
         this.spiller.mottaKort(dealer.delUtKort());
         dealer.mottaKort(dealer.delUtKort());
@@ -56,7 +57,7 @@ public class BlackjackService {
 
     public void pass() {
         dealer.aktiverVisingAvKort();
-        dealer.fullforSpill(spiller);
+        dealer.fullforSpill();
         if (dealer.besteVerdiForHand() > 21) {
             status = Status.SPILLER_VANT;
         } else if (spiller.besteVerdiForHand() > 21) {

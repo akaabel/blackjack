@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SpillController {
 
-    @Autowired
-    private BlackjackService blackjackService;
+    private final BlackjackService blackjackService;
+
+    public SpillController(BlackjackService blackjackService) {
+        this.blackjackService = blackjackService;
+    }
 
     /**
      * Starter et nytt spill med angitt spillernavn.

@@ -13,6 +13,11 @@ public class Kort {
         Farge(String unicodeSymbol) {
             this.unicodeSymbol = unicodeSymbol;
         }
+
+        @Override
+        public String toString() {
+            return unicodeSymbol + " " + name();
+        }
     }
 
     enum Rank {

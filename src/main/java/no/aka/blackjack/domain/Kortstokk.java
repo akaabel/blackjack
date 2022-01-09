@@ -10,14 +10,14 @@ import java.util.*;
  *
  * Det er mulig å trekke et {@code Kort} fra kortstokken.
  */
-class Kortstokk {
+public class Kortstokk {
     private List<Kort> listeAvKort;
 
     public Kortstokk() {
         listeAvKort = opprettStokketKortstokk();
     }
 
-    public int getAntallKortIgjenIKortstokk() {
+    public int antallKortIgjenIKortstokk() {
         return listeAvKort.size();
     }
 

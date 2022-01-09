@@ -4,10 +4,12 @@ import no.aka.blackjack.service.BlackjackService;
 
 /**
  * Klasse som representer en Dealer i Blackjack.
- * En dealer er veldig lik en spiller, bortsett fra at det er tilfeller hvor bare den første kortet vises.
+ * En dealer har en {@link Kortstokk} og deler ut kort.
+ * Ellers er en dealer veldig lik en {@link Spiller}, bortsett fra at det er tilfeller hvor bare det første kortet vises.
  *
  * @see BlackjackService
  * @see Spiller
+ * @see Kortstokk
  */
 public class Dealer extends Spiller {
     private Kortstokk kortstokk = new Kortstokk();
@@ -17,6 +19,7 @@ public class Dealer extends Spiller {
         super(navn);
     }
 
+    @Override
     public Hand getHand() {
         if (skalKortSkjules) {
             Hand tmpHand = new Hand();
@@ -27,7 +30,7 @@ public class Dealer extends Spiller {
         }
     }
 
-    public void samleOgStokkKort() {
+    public void startNyRunde() {
         kortstokk = new Kortstokk();
     }
 
@@ -35,11 +38,7 @@ public class Dealer extends Spiller {
         return kortstokk.trekkKort();
     }
 
-    public int getAntallKortIgjenIStokken() {
-        return kortstokk.getAntallKortIgjenIKortstokk();
-    }
-
-    public void fullforSpill(Spiller spiller) {
+    public void fullforSpill() {
         while (besteVerdiForHand() < 17) {
             mottaKort(kortstokk.trekkKort());
         }

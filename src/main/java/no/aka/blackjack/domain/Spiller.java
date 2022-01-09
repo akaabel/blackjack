@@ -16,6 +16,10 @@ public class Spiller {
         hand = new Hand();
     }
 
+    public String getNavn() {
+        return navn;
+    }
+
     public boolean harMerEnn21() {
         return besteVerdiForHand() > 21;
     }
@@ -24,10 +28,7 @@ public class Spiller {
         hand.leggTilKort(kort);
     }
 
-    public String getNavn() {
-        return navn;
-    }
-
+    // Brukes for å vise status som JSON
     public Hand getHand() {
         return hand;
     }
