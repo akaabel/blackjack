@@ -16,14 +16,17 @@ public class BlackjackService {
         start("DefaultNavn");
     }
 
+    // Brukes for å vise spillet som JSON
     public Spiller getSpiller() {
         return spiller;
     }
 
+    // Brukes for å vise spillet som JSON
     public Dealer getDealer() {
         return dealer;
     }
 
+    // Brukes for å vise spillet som JSON
     public Status getStatus() {
         return status;
     }
