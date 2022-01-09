@@ -1,7 +1,6 @@
 package no.aka.blackjack.service;
 
 import no.aka.blackjack.domain.Dealer;
-import no.aka.blackjack.domain.Kortstokk;
 import no.aka.blackjack.domain.Spiller;
 import org.springframework.stereotype.Service;
 
