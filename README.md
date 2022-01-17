@@ -22,3 +22,6 @@ Dersom håndens verdi er mer enn 21, kastes en Exception. Da må man starte spil
 
 ### `/pass`
 Stå og ikke trekk flere kort. Dealer spiller da sitt spill og resultatet vises.
+
+## Testing
+Testing av applikasjonen er gjort ved unit- og komponenttester.

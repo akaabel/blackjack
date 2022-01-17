@@ -9,15 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
  * Formålet med denne klassen er å teste komponenten ved å teste HTTP endepunktene.
  */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class Komponenttest {
+public class KomponentTest {
 
     @LocalServerPort
     private int port;
@@ -41,7 +40,8 @@ public class Komponenttest {
                 spillernavn, String.class);
         JsonNode jsonNode = objectMapper.readTree(jsonStr);
         assertEquals(spillernavn, jsonNode.get("spiller").get("navn").textValue());
-        assertEquals("SPILLER_KAN_TREKKE_KORT", jsonNode.get("status").textValue());
+        String status = jsonNode.get("status").textValue();
+        assertTrue(status.equals("SPILLER_KAN_TREKKE_KORT") || status.equals("BLACK_JACK"));
         assertEquals(2, jsonNode.get("spiller").get("hand").get("listeAvKort").size());
         assertEquals(1, jsonNode.get("dealer").get("hand").get("listeAvKort").size());
     }
