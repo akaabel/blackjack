@@ -3,21 +3,7 @@ package no.aka.blackjack.domain;
 public class Kort {
 
     enum Farge {
-        Spar("\u2660"),
-        Hjerter("\u2665"),
-        Ruter("\u2666"),
-        Kløver("\u2663");
-
-        public final String unicodeSymbol;
-
-        Farge(String unicodeSymbol) {
-            this.unicodeSymbol = unicodeSymbol;
-        }
-
-        @Override
-        public String toString() {
-            return unicodeSymbol + " " + name();
-        }
+        Spar, Hjerter, Ruter, Kløver;
     }
 
     enum Rank {
@@ -52,7 +38,7 @@ public class Kort {
     }
 
     public String getFarge() {
-        return farge.unicodeSymbol + " " + farge.name();
+        return farge.name();
     }
 
     public Rank getRank() {

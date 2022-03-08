@@ -1,19 +1,49 @@
 package no.aka.blackjack.service;
 
 import no.aka.blackjack.domain.Dealer;
+import no.aka.blackjack.domain.Kortstokk;
 import no.aka.blackjack.domain.Spiller;
+import no.aka.blackjack.repository.SpillRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class BlackjackService {
     private enum Status {SPILLER_KAN_TREKKE_KORT, UAVGJORT, DEALER_VANT, SPILLER_VANT, BLACK_JACK}
 
+    private Kortstokk kortstokk = new Kortstokk();
     private Spiller spiller;
     private Dealer dealer;
     private Status status;
+    private long spillId;
+
+    public void setKortstokk(Kortstokk kortstokk) {
+        this.kortstokk = kortstokk;
+    }
+
+    public void setSpiller(Spiller spiller) {
+        this.spiller = spiller;
+    }
+
+    public void setDealer(Dealer dealer) {
+        this.dealer = dealer;
+    }
+
+    public void setStatus(String status) {
+        this.status = Status.valueOf(status);
+    }
+
+    public void setSpillId(long spillId) {
+        this.spillId = spillId;
+    }
+
+    @Autowired
+    private SpillRepository spillRepository;
 
     public BlackjackService() {
-        start("DefaultNavn");
+        this.spillRepository = spillRepository;
     }
 
     // Brukes for å vise spillet som JSON
@@ -31,12 +61,20 @@ public class BlackjackService {
         return status;
     }
 
+    // Brukes for å vise spillet som JSON
+    public long getSpillId() {
+        return spillId;
+    }
+
+    public Kortstokk getKortstokk() {
+        return kortstokk;
+    }
+
     public void start(String spillernavn) {
         this.spiller = new Spiller(spillernavn);
-        dealer = new Dealer("Mr. Dealer");
+        dealer = new Dealer("Mr. Dealer", new Kortstokk());
         status = Status.SPILLER_KAN_TREKKE_KORT;
 
-        dealer.startNyRunde();
         this.spiller.mottaKort(dealer.delUtKort());
         this.spiller.mottaKort(dealer.delUtKort());
         dealer.mottaKort(dealer.delUtKort());
@@ -45,6 +83,17 @@ public class BlackjackService {
         if (this.spiller.besteVerdiForHand() == 21) {
             status = Status.BLACK_JACK;
         }
+
+        spillId = spillRepository.lagreNyttSpill(this);
+    }
+
+    public void hentSpill(Long id) {
+        BlackjackService blackjackServiceTmp = spillRepository.hentSpill(id);
+        spillId = blackjackServiceTmp.getSpillId();
+        status = blackjackServiceTmp.getStatus();
+        spiller = blackjackServiceTmp.getSpiller();
+        dealer = blackjackServiceTmp.getDealer();
+        kortstokk = blackjackServiceTmp.getKortstokk();
     }
 
     public void delKortTilSpiller() {

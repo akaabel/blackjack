@@ -7,13 +7,25 @@ package no.aka.blackjack.domain;
  * @see Kort
  */
 public class Spiller {
-    private final String navn;
-
+    private String navn;
     protected Hand hand;
+
+    public void setNavn(String navn) {
+        this.navn = navn;
+    }
+
+    public void setHand(Hand hand) {
+        this.hand = hand;
+    }
 
     public Spiller(String navn) {
         this.navn = navn;
         hand = new Hand();
+    }
+
+    public Spiller(String navn, Hand hand) {
+        this.navn = navn;
+        this.hand = hand;
     }
 
     public String getNavn() {

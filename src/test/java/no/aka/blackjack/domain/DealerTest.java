@@ -1,12 +1,18 @@
 package no.aka.blackjack.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DealerTest {
 
-    private Dealer dealer = new Dealer("DealerNavn");
+    private Dealer dealer = new Dealer("DealerNavn", new Kortstokk());
+
+    @BeforeEach
+    private void setup() {
+        new Dealer("DealerNavn", new Kortstokk());
+    }
 
     @Test
     /**
@@ -19,7 +25,6 @@ class DealerTest {
 
     @Test
     void startNyRunde_kortstokkHar52Kort() {
-        dealer.startNyRunde();
         for (int i = 0; i < 52; i++) {
             dealer.delUtKort();
         }
@@ -30,7 +35,6 @@ class DealerTest {
 
     @Test
     void getHand_HarSkjulteKort() {
-        dealer.startNyRunde();
         dealer.mottaKort(dealer.delUtKort());
         dealer.mottaKort(dealer.delUtKort());
         assertEquals(1, dealer.getHand().getListeAvKort().size());
@@ -38,7 +42,6 @@ class DealerTest {
 
     @Test
     void aktiverVisningAvKort_IngenSkjulteKort() {
-        dealer.startNyRunde();
         dealer.mottaKort(dealer.delUtKort());
         dealer.mottaKort(dealer.delUtKort());
         dealer.mottaKort(dealer.delUtKort());

@@ -1,5 +1,12 @@
 # BlackJack Spring Boot versjon
-Dette er besvarelsen til øvingsoppgave nivå2 i utviklingsløpet til Decisive.
+Dette er besvarelsen til øvingsoppgave nivå4 i utviklingsløpet til Decisive.
+
+_MERK! Denne branchen inneholder en enkel løsning på persistering hvor objektene serialiseres
+og lagres som tekststrenger i databasen.
+Denne løsningen inneholder kun en tabell: Spill som lagrer tilstanden til spillet.
+Således løser den ikke oppgaven ved at man skal ha minst en tabell.
+Men den løser persistering slik at applikasjonen kan stoppes og startes igjen,
+og man kan hente fra et tidligere spill._
 
 ## Hvordan spille
 Følgende endepunkter benyttes for å spilles spillet.
@@ -25,3 +32,23 @@ Stå og ikke trekk flere kort. Dealer spiller da sitt spill og resultatet vises.
 
 ## Testing
 Testing av applikasjonen er gjort ved unit- og komponenttester.
+
+## Persistering og database
+
+### Mulig måter å installere Postgres på
+
+#### Docker
+For å installere og starte en Postgres database med docker trenger man bare kjøre en kommando:
+
+`docker run --name blackjack_db -p 5432:5432 -d postgres`
+
+#### docker-compose
+For å starte Postgresql med docker-compose, se [Makefile](./Makefile).
+
+### Nyttige kommandoer for Postgres
+1. Koble til psql: `docker exec -it postgres psql -U postgres`.
+   1. Se databaser i psql: `\l` eller `select * from pg_database;`
+   2. Bytt database: f.eks. `\c blackjack`, eller logg direkte på med `docker exec -it postgres psql -U postgres -d blackjack`. 
+   3. Vis tabeller: `\dt`, alternativt `SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema';` 
+
+

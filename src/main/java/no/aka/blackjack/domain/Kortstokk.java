@@ -17,6 +17,10 @@ public class Kortstokk {
         listeAvKort = opprettStokketKortstokk();
     }
 
+    public List<Kort> getListeAvKort() {
+        return listeAvKort;
+    }
+
     public int antallKortIgjenIKortstokk() {
         return listeAvKort.size();
     }

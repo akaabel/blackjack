@@ -1,6 +1,7 @@
 package no.aka.blackjack.domain;
 
 import no.aka.blackjack.service.BlackjackService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Klasse som representer en Dealer i Blackjack.
@@ -12,11 +13,12 @@ import no.aka.blackjack.service.BlackjackService;
  * @see Kortstokk
  */
 public class Dealer extends Spiller {
-    private Kortstokk kortstokk = new Kortstokk();
+    private Kortstokk kortstokk;
     private boolean skalKortSkjules = true;
 
-    public Dealer(String navn) {
+    public Dealer(String navn, Kortstokk kortstokk) {
         super(navn);
+        this.kortstokk = kortstokk;
     }
 
     @Override
@@ -28,10 +30,6 @@ public class Dealer extends Spiller {
         } else {
             return hand;
         }
-    }
-
-    public void startNyRunde() {
-        kortstokk = new Kortstokk();
     }
 
     public Kort delUtKort() {
